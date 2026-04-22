@@ -1,17 +1,26 @@
 PROJECT := run
+
+BUILDDIR := ./build
+SRCDIR := ./src
+
+SRCS := $(shell find $(SRCDIR) -name "*.c")
+
+OBJS := $(patsubst $(SRCDIR)/%.c, $(BUILDDIR)/%.o, $(SRCS))
+
 CC := gcc
-BUILDDIR := obj
-CFLAGS := -Wall -Wextra -g -O2
-SRCS := $(shell find . -name "*.c")
-OBJS := $(patsubst %.c,%.o,$(SRCS))
+CFLAGS := -Wall -Wextra -O -MMD -MP
 
 $(PROJECT): $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $@
 
-%.o:%.c
+$(BUILDDIR)/%.o: $(SRCDIR)/%.c
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: clean
 
 clean:
-	rm -f $(PROJECT) $(OBJS)
+	rm -rf $(BUILDDIR)
+	rm $(PROJECT)
+
+-include $(OBJS:.o=.d)
