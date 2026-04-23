@@ -15,4 +15,6 @@ void enter_raw_mode();
 
 void get_window_size();
 
+char read_key();
+
 #endif

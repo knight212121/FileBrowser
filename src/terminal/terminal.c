@@ -1,5 +1,6 @@
 #include "terminal.h"
 #include "../error/error.h"
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
@@ -63,4 +64,15 @@ void get_window_size() {
         Term.screencols = ws.ws_col;
         Term.screenrows = ws.ws_row;
     }
+}
+
+char read_key() {
+    int nread;
+    char c;
+
+    while ((nread = read(STDIN_FILENO, &c, 1)) != 1) {
+        if (nread == -1 && errno != EAGAIN)
+            die("read");
+    }
+    return c;
 }
