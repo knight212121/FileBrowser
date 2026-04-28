@@ -54,4 +54,8 @@ void draw_title(const char *s) {
     write(STDOUT_FILENO, ab.b, ab.len);
 }
 
-void draw_text_at_position(int rows, int cols) {}
+void write_directory_to_screen(DirectoryView dv) {
+    for(int i = 0; i < dv.count; i += 1) {
+        printf("%s\n", dv.entries[i].name);
+    }
+}

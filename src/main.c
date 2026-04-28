@@ -1,3 +1,4 @@
+#include "app/app.h"
 #include "terminal/terminal.h"
 #include "input/input.h"
 #include "output/output.h"
@@ -9,8 +10,11 @@ int main() {
     refresh_screen();
     draw_title("Welcome to Fowser");
 
+    show_directory_content("/home/knight");
+
     while(1) {
         process_keypress();
     }
+
     return 0;
 }
